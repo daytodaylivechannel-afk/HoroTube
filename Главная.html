@@ -9,7 +9,8 @@
     <title>HoroTube</title>
     
     <!-- Подключение иконки и стилей -->
-    <link rel="icon" href="/Users/tema/Desktop/Снимок экрана 2026-06-09 в 19.21.32.png" type="image/x-icon">
+    <!-- ИСПРАВЛЕНО: Относительный путь к иконке -->
+    <link rel="icon" href="images/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -117,20 +118,22 @@
     <!-- Контейнер блокировки доступа (появляется вместо контента) -->
     <div id="accessDeniedBlock" class="access-denied-screen">
         <h1>Ой, нет доступа!</h1>
-        <!-- Замените Вход.html на правильное имя вашего файла авторизации, если оно другое -->
+        <!-- СОВЕТ: Для GitHub Pages лучше избегать кириллицы в названиях файлов, переименуйте в login.html -->
         <a href="Вход.html" class="login-redirect-btn">Войти</a>
     </div>
 
    <!-- Основной контент страницы (оборачиваем в контейнер, чтобы легко скрыть) -->
 <div id="mainContent">
     <!-- Ваша фотография -->
-    <img src="/Users/tema/Desktop/Снимок экрана 2026-06-09 в 19.21.32.png" alt="Фото" class="top-left-photo">
+    <!-- ИСПРАВЛЕНО: Относительный путь вместо локального компьютерного -->
+    <img src="images/top-photo.png" alt="Фото" class="top-left-photo">
 
     <!-- Контейнер слева: кнопка, а под ней текст -->
     <div class="button-container">
-        <!-- Вместо URL_ВАШЕЙ_ССЫЛКИ указываем имя локального HTML-файла -->
+        <!-- СОВЕТ: Переименуйте файл без пробелов и кириллицы, например, tour.html -->
         <a href="Тур по Гимназии Хорошколы.html" class="image-button">
-            <img src="/Users/tema/Downloads/maxresdefault.jpg" alt="Описание картинки">
+            <!-- ИСПРАВЛЕНО: Относительный путь к обложке -->
+            <img src="images/maxresdefault.jpg" alt="Обложка тура">
         </a>
         <!-- Текст под кнопкой -->
         <div class="button-text">
