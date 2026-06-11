@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HoroTube</title>
+    <!-- Подключение иконки и стилей -->
+    <link rel="icon" href="/Users/tema/Desktop/Снимок экрана 2026-06-09 в 19.21.32.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+<!-- Основной контент страницы -->
+<div id="mainContent">
+    <!-- Фотография в левом верхнем углу, оформленная как кнопка-ссылка -->
+    <a href="Главная.html" class="photo-link-button" style="position: fixed; top: 20px; left: 20px; z-index: 9999;">
+        <img src="/Users/tema/Desktop/Снимок экрана 2026-06-09 в 19.21.32.png" 
+             alt="Фото" 
+             class="top-left-photo" 
+             style="width: 220px; height: auto; display: block; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    </a>
+</div>
+
+    <!-- Логика проверки доступа -->
+    <script>
+        // Читаем переменную из хранилища браузера
+        const sist = localStorage.getItem('сист');
+
+        // Если переменная равна "0" или вообще еще не создана
+        if (sist === '0' || null === sist) {
+            // Скрываем основной контент страницы
+            document.getElementById('mainContent').style.display = 'none';
+            // Показываем экран ошибки
+            document.getElementById('accessDeniedBlock').style.display = 'flex';
+        }
+    </script>
+    <style>
+        body {
+            background-color: #ffffff; /* Белый фон страницы */
+            color: #0f0f0f;            /* Темный текст */
+            font-family: "Roboto", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08); /* Мягкая светлая тень контейнера */
+        }
+
+        /* Адаптивный плеер 16:9 под обычный видеофайл */
+        .video-player {
+            position: relative;
+            padding-bottom: 56.25%; 
+            height: 0;
+            background-color: #000000;
+        }
+
+        .video-player video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .video-info {
+            padding: 16px 0; /* Отступы в стиле стандартного YouTube */
+            background-color: #ffffff;
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin: 0 0 12px 0;
+            line-height: 28px;
+            color: #0f0f0f;
+        }
+
+        .video-actions {
+            position: relative; /* Нужно для правильного позиционирования вылетающих сердечек */
+            display: flex;
+            justify-content: flex-end;
+            border-bottom: 1px solid #e5e5e5; /* Светлая разделительная линия */
+            padding-bottom: 12px;
+        }
+
+        /* Стиль кнопки в духе дневной темы YouTube */
+        .like-button {
+            position: relative;
+            background-color: #f2f2f2; /* Светло-серый фон кнопки */
+            color: #0f0f0f;
+            border: none;
+            padding: 0 16px;
+            height: 36px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .like-button:hover {
+            background-color: #e5e5e5;
+        }
+
+        .like-button:active {
+            transform: scale(0.95);
+        }
+
+        /* Стиль для активного состояния (когда лайк поставлен) */
+        .like-button.liked {
+            background-color: #0f0f0f; /* Черная кнопка при клике */
+            color: #ffffff;
+        }
+        
+        /* Анимация и размер для эмодзи лайка */
+        .like-emoji {
+            font-size: 16px;
+            transition: transform 0.2s ease;
+            user-select: none; /* Чтобы эмодзи не выделялся синим при двойном клике */
+        }
+
+        /* Небольшое увеличение эмодзи при активном лайке */
+        .like-button.liked .like-emoji {
+            transform: scale(1.2);
+        }
+
+        /* Элемент вылетающего сердечка */
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none; /* Чтобы не мешало кликам */
+            z-index: 10;
+            animation: flyUp 0.8s ease-out forwards;
+        }
+
+        /* CSS-анимация полета вверх и растворения */
+        @keyframes flyUp {
+            0% {
+                transform: translate(-50%, 0) scale(0.5);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(calc(-50% + var(--random-x)), -40px) scale(1.2);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(calc(-50% + var(--random-x) * 1.5), -80px) scale(0.8);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="video-container">
+        <!-- Видео-плеер через стандартный тег video для локальных файлов -->
+        <div class="video-player">
+            <video controls poster="">
+                <source src="/Users/tema/Downloads/Видеотур по гимназии Хорошколы [get.gt].mp4" type="video/mp4">
+                Ваш браузер не поддерживает воспроизведение видео.
+            </video>
+        </div>
+
+        <!-- Информация и кнопка лайка -->
+        <div class="video-info">
+            <h1 class="video-title">Тур по Гимназии Хорошколы!</h1>
+            <div class="video-actions" id="actionsContainer">
+                <button class="like-button" id="likeBtn">
+                    <!-- Заменили иконку на текстовый эмодзи -->
+                    <span class="like-emoji" id="likeIcon">👍</span>
+                    <span id="likeCount">0</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Стартуем строго с 0 лайков
+        let likesAmount = 0;
+        let isLiked = false;
+
+        const likeBtn = document.getElementById('likeBtn');
+        const likeCount = document.getElementById('likeCount');
+        const actionsContainer = document.getElementById('actionsContainer');
+
+        // Функция для создания и запуска анимации сердечка
+        function createHeart() {
+            const heart = document.createElement('span');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '❤️';
+
+            // Находим координаты кнопки относительно родительского контейнера
+            const btnLeft = likeBtn.offsetLeft;
+            const btnWidth = likeBtn.offsetWidth;
+            
+            // Ставим сердечко по центру кнопки лайка
+            heart.style.left = (btnLeft + btnWidth / 2) + 'px';
+            heart.style.top = likeBtn.offsetTop + 'px';
+
+            // Генерируем случайное отклонение по горизонтали, чтобы сердечки летели не строго вверх
+            const randomX = (Math.random() - 0.5) * 40; // от -20px до +20px
+            heart.style.setProperty('--random-x', randomX + 'px');
+
+            // Добавляем на страницу
+            actionsContainer.appendChild(heart);
+
+            // Удаляем элемент из HTML после завершения анимации (через 800мс)
+            setTimeout(() => {
+                heart.remove();
+            }, 800);
+        }
+
+        // Обработчик нажатия на кнопку лайка
+        likeBtn.addEventListener('click', () => {
+            if (!isLiked) {
+                likesAmount++;
+                isLiked = true;
+                likeBtn.classList.add('liked');
+                // Запускаем анимацию сердечка только при активации лайка
+                createHeart();
+            } else {
+                likesAmount--;
+                isLiked = false;
+                likeBtn.classList.remove('liked');
+            }
+            
+            // Выводим точное число лайков
+            likeCount.textContent = likesAmount;
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <!-- Техническая информация для браузера -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Заголовок во вкладке -->
+    <title>Опрос</title>
+    
+    <!-- Подключение иконки и стилей -->
+    <link rel="icon" href="/Users/tema/Desktop/Снимок экрана 2026-06-09 в 19.21.32.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="center-container">
+  <!-- Блок приветствия -->
+  <div id="welcome-screen" class="fade-zoom">Привет!</div>
+
+  <!-- Блок с ПЕРВЫМ вопросом (множественный выбор) -->
+  <div id="quiz-screen-1" class="quiz-container hide">
+    <h2 class="question">Какие уроки ты любишь?</h2>
+    <p class="subtitle">Выбери минимум 2 предмета</p>
+    <div class="buttons-grid">
+      <button class="btn multi-btn" data-subject="math">Математика 🧮</button>
+      <button class="btn multi-btn" data-subject="russian">Русский язык 🪆</button>
+      <button class="btn multi-btn" data-subject="history">История 🏰</button>
+      <button class="btn multi-btn" data-subject="geo">География 🗺️</button>
+      <button class="btn multi-btn" data-subject="bio">Биология 🪴</button>
+    </div>
+    <!-- Кнопка Далее -->
+    <button id="next-btn" class="btn-next hide-next">Далее</button>
+  </div>
+
+  <!-- Блок со ВТОРЫМ вопросом (одиночный выбор) -->
+  <div id="quiz-screen-2" class="quiz-container hide">
+    <h2 class="question">Какой для тебя самый сложный предмет?</h2>
+    <div class="buttons-grid">
+      <button class="btn final-btn">Математика 🧮</button>
+      <button class="btn final-btn">Русский язык 🪆</button>
+      <button class="btn final-btn">История 🏰</button>
+      <button class="btn final-btn">География 🗺️</button>
+      <button class="btn final-btn">Биология 🪴</button>
+    </div>
+    <!-- Кнопка Завершить опрос -->
+    <button id="finish-btn" class="btn-next hide-next">Завершить опрос</button>
+  </div>
+
+  <!-- Финальный экран -->
+  <div id="final-screen" class="quiz-container hide">
+    <h2 class="question final-text">Теперь буду знать тебя лучше!</h2>
+  </div>
+</div>
+
+<style>
+/* Основной контейнер по центру */
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: sans-serif;
+  background-color: #fff;
+  overflow: hidden;
+}
+
+/* Анимация приветствия */
+.fade-zoom {
+  font-size: 50px;
+  font-weight: bold;
+  color: #000;
+  animation: appearance 1.5s ease-out 2 alternate forwards;
+}
+
+/* Скрытие экранов */
+.hide {
+  display: none !important;
+}
+
+.quiz-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  max-width: 600px;
+  padding: 0 20px;
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Стили для текстов */
+.question {
+  font-size: 32px;
+  color: #000;
+  margin: 0;
+  text-align: center;
+}
+
+.subtitle {
+  font-size: 16px;
+  color: #666;
+  margin: -10px 0 10px 0;
+}
+
+/* Финальный текст */
+.final-text {
+  font-size: 36px;
+  animation: appearance 0.5s ease-out forwards; /* Ускорили появление текста */
+}
+
+/* Сетка для кнопок */
+.buttons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+}
+
+/* Базовые стили для кнопок предметов */
+.btn {
+  font-size: 18px;
+  padding: 12px 24px;
+  border: 2px solid #000;
+  background-color: #fff;
+  color: #000;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Класс для выделенной кнопки */
+.btn.selected {
+  background-color: #000;
+  color: #fff;
+}
+
+/* Кнопки навигации (Далее / Завершить опрос) */
+.btn-next {
+  font-size: 18px;
+  padding: 12px 40px;
+  border: 2px solid #000;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 8px;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+  opacity: 1;
+  transform: scale(1);
+}
+
+.btn-next:hover {
+  background-color: #333;
+  border-color: #333;
+}
+
+/* Скрытие и плавная анимация появления кнопок навигации */
+.btn-next.hide-next {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+/* Анимации */
+@keyframes appearance {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+</style>
+
+<script>
+// Путь к файлу, на который перейдет страница в самом конце
+const REDIRECT_URL = "Главная.html"; 
+
+// 1. Переключение с приветствия на первый вопрос
+setTimeout(() => {
+  const welcome = document.getElementById('welcome-screen');
+  const quiz1 = document.getElementById('quiz-screen-1');
+  
+  if (welcome && quiz1) {
+    welcome.style.transition = 'opacity 0.5s ease';
+    welcome.style.opacity = '0';
+    
+    setTimeout(() => {
+      welcome.classList.add('hide');
+      quiz1.classList.remove('hide');
+    }, 500);
+  }
+}, 3000);
+
+// 2. Логика выбора предметов в первом вопросе
+const multiButtons = document.querySelectorAll('.multi-btn');
+const nextBtn = document.getElementById('next-btn');
+let selectedCount = 0;
+
+multiButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    button.classList.toggle('selected');
+    selectedCount = document.querySelectorAll('.multi-btn.selected').length;
+    
+    if (selectedCount >= 2) {
+      nextBtn.classList.remove('hide-next');
+    } else {
+      nextBtn.classList.add('hide-next');
+    }
+  });
+});
+
+// 3. Переход ко второму вопросу по кнопке "Далее"
+nextBtn.addEventListener('click', () => {
+  const quiz1 = document.getElementById('quiz-screen-1');
+  const quiz2 = document.getElementById('quiz-screen-2');
+  
+  quiz1.classList.add('hide');
+  quiz2.classList.remove('hide');
+});
+
+// 4. Логика для второго вопроса и кнопки "Завершить опрос"
+const finalButtons = document.querySelectorAll('.final-btn');
+const finishBtn = document.getElementById('finish-btn');
+
+finalButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    finalButtons.forEach(b => b.classList.remove('selected'));
+    button.classList.add('selected');
+    finishBtn.classList.remove('hide-next');
+  });
+});
+
+// 5. Переход к финальному экрану и последующий автоматический редирект
+finishBtn.addEventListener('click', () => {
+  const quiz2 = document.getElementById('quiz-screen-2');
+  const finalScreen = document.getElementById('final-screen');
+  
+  quiz2.classList.add('hide');
+  finalScreen.classList.remove('hide');
+
+  // Ожидание 1.5 секунды (1500 мс), чтобы пользователь успел прочитать финальный текст
+  setTimeout(() => {
+    window.location.href = REDIRECT_URL; // Выполняет переход на Главная.html
+  }, 1500);
+});
+</script>
